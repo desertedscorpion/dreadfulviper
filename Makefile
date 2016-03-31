@@ -1,18 +1,15 @@
-# RELEASE=`git describe --tags`
-RELEASE=0.0.0
+RELEASE=$(shell git describe --tags)
 
 test-phonetic-${VERSION}.spec : test-phonetic.spec
 	sed -e "s#VERSION#${VERSION}#" -e "s#RELEASE#${RELEASE}#" -e "w${@}" ${<}
 
 test-phonetic-${VERSION} :
-	mkdir --parents ${@}
 	git -C ${@} init
 	git -C ${@} remote add origin git@github.com:desertedscorpion/remotesunshine.git
 	git -C ${@} fetch origin
-	git -C ${@} checkout tags/${VERSION}
 
 test-phonetic-${VERSION}.tar : test-phonetic-${VERSION}
-	tar --create --file ${@} ${<}
+	git -C ${<} archive --prefix test-phonetic-${VERSION}/ tags/${VERSION} > ${@}
 
 test-phonetic-${VERSION}.tar.gz : test-phonetic-${VERSION}.tar
 	gzip --to-stdout ${<} > ${@}
