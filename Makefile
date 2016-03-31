@@ -4,6 +4,7 @@ test-phonetic-${VERSION}.spec : test-phonetic.spec
 	sed -e "s#VERSION#${VERSION}#" -e "s#RELEASE#${RELEASE}#" -e "w${@}" ${<}
 
 test-phonetic-${VERSION} :
+	mkdir ${@}
 	git -C ${@} init
 	git -C ${@} remote add origin git@github.com:desertedscorpion/remotesunshine.git
 	git -C ${@} fetch origin
